@@ -6,9 +6,10 @@ import (
 	"image/color"
 	"image/gif"
 	"io"
+	"log"
 	"math"
 	"math/rand"
-	"os"
+	"net/http"
 )
 
 var palette = []color.Color{color.White, color.Black}
@@ -19,7 +20,11 @@ const (
 )
 
 func main() {
-	lissajous(os.Stdout)
+	// lissajous(os.Stdout)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		lissajous(w)
+	})
+	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 
 func lissajous(out io.Writer) {
